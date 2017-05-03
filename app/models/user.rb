@@ -14,8 +14,7 @@ class User < ApplicationRecord
   has_secure_password
   # Ensure that the users email is unique by making all emails lowercase
   before_save { email.downcase! }
-
-  validates :name, presence: true, length: {maximum: 50}
+  
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: {maximum: 255},
                     format: {with: VALID_EMAIL_REGEX}, uniqueness: { case_sensitive: false}
@@ -24,7 +23,7 @@ class User < ApplicationRecord
 
   # digest user password with specific Bcrypt parameters
   def self.digest(string)
-    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+b    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
              BCrypt::Engine.cost
     BCrypt::Password.create(string, cost: cost)
   end
@@ -36,6 +35,6 @@ class User < ApplicationRecord
   end
 
   def to_token_payload
-    { sub: id, role: type }
+    { sub: id }
   end
 end
