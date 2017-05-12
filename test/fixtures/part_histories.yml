@@ -1,0 +1,16 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one 
+  change: 10
+  part: one
+
+two:
+  user: one
+  change: -15
+  part: one
+
+three:
+  user: one
+  change: 7
+  part: one
