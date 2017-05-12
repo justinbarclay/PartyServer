@@ -12,8 +12,8 @@ class PartsController < ApplicationController
     end
   end
 
-  def get
-    part = Part.find_by(:partID)
+  def show
+    part = Part.find_by(id: params[:part_id])
 
     if part.nil?
       render status: 404, json: { success: false, error: 'Part not found' }

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   scope :api do
     constraints format: :json do
       post         'parts',                   to: 'parts#create'
-      get          'parts/:part_id',          to: 'parts#get'
+      get          'parts/:part_id',          to: 'parts#show'
       get          'parts',                   to: 'parts#index' 
     end
   end
