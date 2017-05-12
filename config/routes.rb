@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     constraints format: :json do
       post         'parts',                   to: 'parts#create'
       get          'parts/:part_id',          to: 'parts#show'
-      get          'parts',                   to: 'parts#index' 
+      get          'parts',                   to: 'parts#index'
     end
   end
 end

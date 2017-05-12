@@ -1,7 +1,8 @@
 # Controller handling all transactions to do with a Part
 
 class PartsController < ApplicationController
-
+  before_action :authenticate_user
+  
   def create
     parts = Part.new(parts_params)
 
@@ -22,10 +23,15 @@ class PartsController < ApplicationController
     end
   end
 
+  def index
+    parts = Part.all
+
+    render status: 200, json: { success: true, parts: parts }
+  end
+
   private
 
   def parts_params
     params.require(:part).permit(:name, :count, :room, :shelf)
   end
-
 end

@@ -36,5 +36,28 @@ class PartsTest < ActionDispatch::IntegrationTest
 
     assert_response 200
     assert JSON.parse(response.body)['success']
+    part = JSON.parse(response.body)['part']
+
+    assert @part.name.eql? part['name']
+
+    assert @part.room.eql? part['room']
   end
+
+  test 'get a part with the wrong ID' do
+    id = @part.id+1
+    get "/api/parts/#{id}", headers: authenticated_header
+
+    assert_response 404
+    assert_not JSON.parse(response.body)['success']
+  end
+
+  test 'get all parts' do
+    get "/api/parts", headers: authenticated_header
+    
+    assert_response 200
+    assert JSON.parse(response.body)['success']
+    assert JSON.parse(response.body)['parts'].size == 2
+    
+  end
+    
 end
