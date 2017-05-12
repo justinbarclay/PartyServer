@@ -43,6 +43,7 @@ GEM
     bcrypt (3.1.11)
     builder (3.2.3)
     byebug (9.0.6)
+    coderay (1.1.1)
     concurrent-ruby (1.0.5)
     erubis (2.7.0)
     ffi (1.9.18)
@@ -78,6 +79,13 @@ GEM
       ast (~> 2.2)
     pg (0.18.4)
     powerpack (0.1.1)
+    pry (0.10.4)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-doc (0.10.0)
+      pry (~> 0.9)
+      yard (~> 0.9)
     puma (3.8.2)
     rack (2.0.1)
     rack-cors (0.4.1)
@@ -118,6 +126,7 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.8.1)
+    slop (3.6.0)
     spring (2.0.1)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -138,6 +147,7 @@ GEM
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
+    yard (0.9.9)
 
 PLATFORMS
   ruby
@@ -148,7 +158,10 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   knock
   listen (~> 3.0.5)
+  method_source (>= 0.8.2)
   pg (= 0.18.4)
+  pry (~> 0.10.3)
+  pry-doc (>= 0.8.0)
   puma (~> 3.0)
   rack-cors
   rails (~> 5.0.1)
