@@ -4,8 +4,10 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
+one:
+  email: justincbarclay@gmail.com
+  first_name: Justin
+  last_name: Barclay
+  password_digest: <%= User.digest('foobarbaz') %>
 two: {}
 # column: value
