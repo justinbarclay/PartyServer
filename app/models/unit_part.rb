@@ -1,0 +1,2 @@
+class UnitPart < ApplicationRecord
+end
