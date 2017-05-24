@@ -1,5 +1,5 @@
 class Unit < ApplicationRecord
   has_many :unit_parts
-  has_many :units, through: :unit_parts
-  validates :name
+  has_many :parts, through: :unit_parts
+  validates :name, presence: true
 end

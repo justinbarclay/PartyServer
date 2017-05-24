@@ -35,12 +35,12 @@ ActiveRecord::Schema.define(version: 20170523064203) do
   end
 
   create_table "unit_parts", force: :cascade do |t|
-    t.integer  "parts_id"
-    t.integer  "units_id"
+    t.integer  "part_id"
+    t.integer  "unit_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["parts_id"], name: "index_unit_parts_on_parts_id", using: :btree
-    t.index ["units_id"], name: "index_unit_parts_on_units_id", using: :btree
+    t.index ["part_id"], name: "index_unit_parts_on_part_id", using: :btree
+    t.index ["unit_id"], name: "index_unit_parts_on_unit_id", using: :btree
   end
 
   create_table "units", force: :cascade do |t|
