@@ -15,6 +15,7 @@ class PartsTest < ActionDispatch::IntegrationTest
              room: 'Mechanical Room',
              shelf: 'A3' } }
 
+    puts response.body
     assert_response 201
     assert JSON.parse(response.body)['success']
   end
@@ -63,15 +64,15 @@ class PartsTest < ActionDispatch::IntegrationTest
   test 'post a part with units' do
     post '/api/parts', headers: authenticated_header, params: {
            part: {
-             units_attributes: [{name: 'U32'}, {name: 'U89'}],
+             unit_parts_attributes: [{unit_attributes: {name: 'U32'}}, {unit_attributes: {name: 'U89'}}],
              name: :gasket,
              count: 20,
              room: 'Mechanical Room',
              shelf: 'A4'
            }}
-    # puts Unit.all.inspect
-    # puts Part.last.inspec
-#    puts Unit_Parts
+    puts Unit.all.inspect
+    puts Part.last.inspect
+    puts UnitPart.all.inspect
     assert_response 201
     assert JSON.parse(response.body)['success']
   end

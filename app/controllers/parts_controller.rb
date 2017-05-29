@@ -33,6 +33,6 @@ class PartsController < ApplicationController
   private
 
   def parts_params
-    params.require(:part).permit(:name, :count, :room, :shelf, units_attributes: [:name, :_update])
+    params.require(:part).permit(:name, :count, :room, :shelf, unit_parts_attributes: [unit_attributes: [ :name ]])
   end
 end
