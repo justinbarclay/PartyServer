@@ -2,8 +2,9 @@
 
 class PartsController < ApplicationController
   before_action :authenticate_user
-  
+
   def create
+    puts parts_params.inspect
     parts = Part.new(parts_params)
 
     if parts.save
@@ -32,6 +33,6 @@ class PartsController < ApplicationController
   private
 
   def parts_params
-    params.require(:part).permit(:name, :count, :room, :shelf)
+    params.require(:part).permit(:name, :count, :room, :shelf, units_attributes: [:name, :_update])
   end
 end

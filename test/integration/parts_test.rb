@@ -59,5 +59,21 @@ class PartsTest < ActionDispatch::IntegrationTest
     assert JSON.parse(response.body)['parts'].size == 2
     
   end
+
+  test 'post a part with units' do
+    post '/api/parts', headers: authenticated_header, params: {
+           part: {
+             units_attributes: [{name: 'U32'}, {name: 'U89'}],
+             name: :gasket,
+             count: 20,
+             room: 'Mechanical Room',
+             shelf: 'A4'
+           }}
+    # puts Unit.all.inspect
+    # puts Part.last.inspec
+#    puts Unit_Parts
+    assert_response 201
+    assert JSON.parse(response.body)['success']
+  end
     
 end
