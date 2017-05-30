@@ -6,8 +6,15 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+
 user = User.new(first_name: 'Justin', last_name: 'Barclay', email: 'justincbarclay@gmail.com', password: 'password', password_confirmation: 'password')
-part = Part.new(name: :Gasket, room: 'Mechanical Room', shelf: :A3, count: 204)
+
+unit1 = Unit.new(name: 'U32')
+unit2 = Unit.new(name: 'D43')
+unit1.save
+unit2.save
+
+part = Part.new(name: :Gasket, room: 'Mechanical Room', shelf: :A3, count: 204, units: [unit1, unit2])
 
 # not exactly sure how party history works
 part.save
