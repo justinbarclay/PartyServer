@@ -4,7 +4,7 @@ class PartsController < ApplicationController
   before_action :authenticate_user
 
   def create
-    puts parts_params.inspect
+
     parts = Part.new(parts_params)
 
     if parts.save
@@ -15,8 +15,7 @@ class PartsController < ApplicationController
   end
 
   def show
-    part = Part.find_by(id: params[:part_id])
-
+    part = Part.includes(:units).find_by(id: params[:part_id])
     if part.nil?
       render status: 404, json: { success: false, error: 'Part not found' }
     else

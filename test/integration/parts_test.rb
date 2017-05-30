@@ -15,7 +15,7 @@ class PartsTest < ActionDispatch::IntegrationTest
              room: 'Mechanical Room',
              shelf: 'A3' } }
 
-    puts response.body
+    
     assert_response 201
     assert JSON.parse(response.body)['success']
   end
@@ -40,7 +40,6 @@ class PartsTest < ActionDispatch::IntegrationTest
     part = JSON.parse(response.body)['part']
 
     assert @part.name.eql? part['name']
-
     assert @part.room.eql? part['room']
   end
 
@@ -70,11 +69,15 @@ class PartsTest < ActionDispatch::IntegrationTest
              room: 'Mechanical Room',
              shelf: 'A4'
            }}
-    puts Unit.all.inspect
-    puts Part.last.inspect
-    puts UnitPart.all.inspect
+
     assert_response 201
     assert JSON.parse(response.body)['success']
+
+    get "/api/parts/#{Part.last.id}", headers: authenticated_header
+    assert_response 200
+    part = JSON.parse(response.body)['part']
+
+    assert(part['units'].any?{ |unit| unit['name'] == 'U32' })
   end
-    
+
 end

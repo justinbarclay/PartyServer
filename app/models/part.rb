@@ -4,9 +4,19 @@ class Part < ApplicationRecord
   has_many :units, through: :unit_parts
   accepts_nested_attributes_for :unit_parts
 
-  
   validates :name, presence: true
   validates :count, presence: true, numericality: { only_integer: true }
   validates :room, presence: true, length: { minimum: 1 }
- 
+
+  def as_json(options = {})
+    super({
+            except: [:created_at, :updated_at],
+            include: {
+              units: {
+                only: [:name]
+              }
+            }
+          }.merge(options)
+    )
+  end
 end
