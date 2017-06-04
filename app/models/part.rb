@@ -14,7 +14,8 @@ class Part < ApplicationRecord
             include: {
               units: {
                 only: [:name]
-              }
+              },
+              part_histories: { except: [:updated_at]}
             }
           }.merge(options)
     )
