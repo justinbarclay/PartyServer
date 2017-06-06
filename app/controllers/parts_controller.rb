@@ -1,15 +1,24 @@
 # Controller handling all transactions to do with a Part
-
+# This controller si supposed to be a bit magical in that it handles all relational
+# objects to do with a part as well. Such as creation of a part history and managing
+# of associated units.
+# When a part has units attached to it in a create or update requests, it will check to see if those untis exist in the DB, and if so create a relationship with the part.
+# If a part previously had a relationship with a unit but when being updated, the unit no longers is in it's unit attributes, it will remove that unit.
+# This is going to be really hacky to implement and will need to be refactored
 class PartsController < ApplicationController
   before_action :authenticate_user
 
   def create
-    parts = Part.new(parts_params)
+    part = Part.new(parts_params)
 
-    if parts.save
+    units = build_units(units_params)
+
+    part.units << units unless units.empty?
+
+    if part.save
       render status: :created, json: { success: true }
     else
-      render status: :error, json: { success: false, errors: parts.errors.full_messages }
+      render status: :error, json: { success: false, errors: part.errors.full_messages }
     end
   end
 
@@ -25,7 +34,6 @@ class PartsController < ApplicationController
 
   def index
     parts = Part.all
-
     render status: 200, json: { success: true, parts: parts }
   end
 
@@ -33,40 +41,62 @@ class PartsController < ApplicationController
     old_part = Part.find_by(id: params[:id])
 
     unless old_part
-      render status: :error, json: {success: false, error: "Part not found"}
+      render status: :error, json: { success: false, error: 'Part not found' }
       return
     end
     diff = calculate_difference(old_part, Part.new(parts_params))
     PartHistory.new(user: current_user, change: diff).save
 
-    
+    units = build_units(units_params)
+    puts units.to_json
+    old_part.units.clear
+    old_part.units << units
+    puts old_part.units.to_json
     if old_part.update(parts_params)
-      render status: 201, json: {success: true }
+      render status: 201, json: { success: true }
     else
       render status: :error, json: { success: false,
-                                    errors: old_part.errors.full_messages }
+                                     errors: old_part.errors.full_messages }
     end
   end
 
   def delete
     id = params[:id]
-    
+
     if Part.exists?(id)
       Part.delete(id)
       render status: 200, json: { success: true }
     end
-    render status: :error, json: { success: false, error: "What were you trying to delete?", id: id }
+    render status: :error, json: { success: false, error: 'What were you trying to delete?', id: id }
   end
 
   private
 
   def parts_params
-    params.require(:part).permit(:name, :count, :room, :shelf, :value, :barcode,
-                                 unit_parts_attributes: [unit_attributes:
-                                                           [:name]])
+    params.require(:part).permit(:name, :count, :room, :shelf, :value, :barcode)
+  end
+
+  def units_params
+    return [] unless params.require(:part).include?(:units)
+
+    params.require(:part).permit(units: [:name]).tap do |part_params|
+      return part_params[:units]
+    end
   end
   
   def calculate_difference(old, new)
     old[:count] - new[:count]
+  end
+
+  # A functions that give a list of unit names returns an object of new or peviously created units
+  # If a unit exists, return that unit. If a unit does not exist with that name make a new unit
+  def build_units(units)
+    units.map do |unit|
+      if Unit.exists?(name: unit['name'])
+        Unit.find_by(name: unit['name'])
+      else
+        Unit.new(unit)
+      end
+    end
   end
 end

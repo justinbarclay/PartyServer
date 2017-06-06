@@ -15,7 +15,6 @@ class PartsTest < ActionDispatch::IntegrationTest
              room: 'Mechanical Room',
              shelf: 'A3' } }
 
-    
     assert_response 201
     assert JSON.parse(response.body)['success']
   end
@@ -60,10 +59,10 @@ class PartsTest < ActionDispatch::IntegrationTest
     
   end
 
-  test 'post a part with units' do
+  test "posting a part with an empty units array" do
     post '/api/parts', headers: authenticated_header, params: {
            part: {
-             unit_parts_attributes: [{unit_attributes: {name: 'U32'}}, {unit_attributes: {name: 'U89'}}],
+             units: [],
              name: :gasket,
              count: 20,
              room: 'Mechanical Room',
@@ -75,9 +74,54 @@ class PartsTest < ActionDispatch::IntegrationTest
 
     get "/api/parts/#{Part.last.id}", headers: authenticated_header
     assert_response 200
-    part = JSON.parse(response.body)['part']
-
-    assert(part['units'].any?{ |unit| unit['name'] == 'U32' })
   end
 
+  test 'post a part with units' do
+    
+    post '/api/parts', headers: authenticated_header, params: {
+           part: {
+             units: [{name: 'U32'}, {name: 'U89'}],
+             name: :gasket,
+             count: 20,
+             room: 'Mechanical Room',
+             shelf: 'A4'
+           }}
+
+    assert_response 201
+    assert JSON.parse(response.body)['success']
+
+    get "/api/parts/#{Part.last.id}", headers: authenticated_header
+    assert_response 200
+
+    part = JSON.parse(response.body)['part']
+    assert(part['units'].any? { |unit| unit['name'] == 'U32' })
+    assert(part['units'].any? { |unit| unit['name'] == 'U89' })
+  end
+
+  
+  test 'updating a part with units' do
+    id = @part.id
+    #being lazy and clever, clazy.
+    count = @part.count  += 20
+    put "/api/parts/#{id}", headers: authenticated_header, params: { part: @part.attributes }
+
+    assert_response 201
+    assert JSON.parse(response.body)['success']
+
+    get "/api/parts/#{id}", headers: authenticated_header
+    assert_response 200
+    part = JSON.parse(response.body)['part']
+    puts part
+    assert part['count'] == count
+  end
+
+  test 'updating a non existent part fails' do
+
+    id = Part.last.id + 1
+    put "/api/parts/#{id}", headers: authenticated_header, params: { part: @part.attributes }
+
+    assert_response :error
+
+    assert_not JSON.parse(response.body)['success']
+  end
 end
