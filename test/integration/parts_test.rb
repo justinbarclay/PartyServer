@@ -111,7 +111,6 @@ class PartsTest < ActionDispatch::IntegrationTest
     get "/api/parts/#{id}", headers: authenticated_header
     assert_response 200
     part = JSON.parse(response.body)['part']
-    puts part
     assert part['count'] == count
   end
 
