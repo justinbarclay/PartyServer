@@ -17,7 +17,8 @@ class UsersController < ApplicationController
   #        "name": "User McUser",
   #        "email": "user@example.com",
   #        "password": "bazfoobar",
-  #        "password_confirmation": "bazfoobar" 
+  #        "password_confirmation": "bazfoobar"
+  #        "invite_token": uuid
   #      }
   #   }
   # @example success
@@ -89,9 +90,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def index
-    render status: 200, json: { success: true, users: User.all}
-  end
   # Handle POST request to reset a users password, route reset_password
   # @example
   #  {
@@ -135,21 +133,15 @@ class UsersController < ApplicationController
   
   private
 
-  def filter_users(users)
-    users.map do |user|
-      { id: user.id, email: user.email, name: user.name }
-    end
-  end
-
   def filter_user(user)
-    { email: user.email, name: user.name }
+    { email: user.email, first_name: user.first_name, last_name: user.last_name }
   end
 
   def password_params
     params.require(:user).permit(:password, :password_confirmation, :reset_token)
   end
+  
   def user_params
-    params.require(:user).permit(:name, :email, :password,
-                                 :password_confirmation, :invite_token)
+    params.require(:user).permit( :password, :password_confirmation, :invite_token)
   end
 end

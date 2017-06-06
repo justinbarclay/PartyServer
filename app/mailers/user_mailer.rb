@@ -6,9 +6,9 @@ class UserMailer < ActionMailer::Base
     @user = user
     token = SecureRandom.uuid
     @user.invite_token = token
-    @url = Rails.application.config.domain.to_s + "/new-user/#{token}"
+    @url = Rails.application.config.domain.to_s + "/signup/#{token}"
     if @user.save
-      mail(to: @user.email, subject: 'Welcome to AHAS')
+      mail(to: @user.email, subject: 'Welcome to the Party')
     else
       puts @user.errors.full_messages
     end
@@ -21,9 +21,9 @@ class UserMailer < ActionMailer::Base
     @user.reset_token = token
     @url = Rails.application.config.domain.to_s + "/reset-password/#{token}"
     if @user.save
-      mail(to: @user.email, subject: 'AHAS Password Reset')
+      mail(to: @user.email, subject: 'Party Password Reset')
     else
-      puts "Error"
+      puts "Unable to reset password"
     end
   end  
 end
