@@ -27,8 +27,11 @@ gem 'knock'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'postmark-rails'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
+
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
