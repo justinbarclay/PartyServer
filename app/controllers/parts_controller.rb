@@ -48,10 +48,8 @@ class PartsController < ApplicationController
     PartHistory.new(user: current_user, change: diff).save
 
     units = build_units(units_params)
-    puts units.to_json
-    old_part.units.clear
-    old_part.units << units
-    puts old_part.units.to_json
+    old_part.units = units
+
     if old_part.update(parts_params)
       render status: 201, json: { success: true }
     else
