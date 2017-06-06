@@ -27,8 +27,11 @@ module PartyServer
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
+
     config.action_mailer.delivery_method = :postmark
-    config.action_mailer.postmark_settings = { api_key: Rails.application.secrets.postmark_api_key }
-    config.domain = :test
+    config.action_mailer.postmark_settings = { :api_token => "ed2ef7dd-ad5e-428a-aa96-19dd30ae8459" }
+    # config.action_mailer.delivery_method = :postmark
+    # config.action_mailer.postmark_settings = { api_key: Rails.application.secrets.postmark_api_key }
+    config.domain = "http://localhost:3000"
   end
 end
