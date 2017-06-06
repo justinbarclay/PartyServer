@@ -88,7 +88,10 @@ class UsersController < ApplicationController
       render status: 404, json: { success: false, error: 'Unable to find user' }
     end
   end
-  
+
+  def index
+    render status: 200, json: { success: true, users: User.all}
+  end
   # Handle POST request to reset a users password, route reset_password
   # @example
   #  {
