@@ -9,7 +9,6 @@
 #  updated_at      :datetime         not null
 #  password_digest :string
 #
-
 class User < ApplicationRecord
   has_secure_password
   # Ensure that the users email is unique by making all emails lowercase

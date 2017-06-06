@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20170606144416) do
     t.datetime "updated_at",                       null: false
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "type",            default: "user"
+    t.string   "type",            default: "User"
     t.uuid     "invite_token"
     t.uuid     "reset_token"
   end

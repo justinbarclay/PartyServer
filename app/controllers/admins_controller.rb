@@ -135,19 +135,19 @@ class AdminsController < ApplicationController
   
   def filter_users(users)
     users.map do |user|
-      { id: user.id, email: user.email, name: user.name, type: user.type }
+      { id: user.id, email: user.email, first_name: user.first_name, last_name: user.last_name, type: user.type }
     end
   end
 
   def filter_user(user)
-    { name: user.name, email: user.email, type: user.type, id: user.id }
+    { first_name: user.first_name, last_name: user.last_name, email: user.email, type: user.type, id: user.id }
   end
 
   def new_user_params
-    params.require(:user).permit(:name, :email, :type)
+    params.require(:user).permit(:first_name, :last_name, :email, :type)
   end
 
   def user_params
-    params.require(:user).permit(:name, :email, :id, :type)
+    params.require(:user).permit(:first_name, :last_name, :email, :id, :type)
   end
 end
