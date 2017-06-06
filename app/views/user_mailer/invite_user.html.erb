@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    </head>
+    <body>
+        <h1>Welcome, <%= @user.first_name %>. </h1>
+        <p>You have been invited to Party, the parts tracking application</p>
+        <p>
+          Your username is: <%= @user.email %>.<br/>
+        </p>
+        <p>
+          To finish creating your account, just follow this link: <%= @url %>.
+        </p>
+    </body>
+</html>
