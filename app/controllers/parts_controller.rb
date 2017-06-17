@@ -68,10 +68,37 @@ class PartsController < ApplicationController
     render status: :error, json: { success: false, error: 'What were you trying to delete?', id: id }
   end
 
+  def search
+    @search = filter_params
+    parts = []
+    if @search['type'] == 'unit'
+      puts :Test
+      units = Unit.where("name like ? ", "%#{@search['query_term']}%")
+      parts = units.flat_map do |unit|
+        unit.parts
+      end
+      parts = parts.map do |part|
+        part.slice(:name, :count, :room, :shelf, :updated_at, :id)
+      end
+    elsif @search['type'] == 'part'
+      puts :test
+      parts = Part.where("name like ?", "%#{@search['query_term']}%")
+    else
+      render status: error, json: { error: "Seach type unknown" }
+      return
+    end
+    puts parts.to_s
+    render status: 200, json: { parts: parts }
+  end
+
   private
 
   def parts_params
     params.require(:part).permit(:name, :count, :room, :shelf, :value, :barcode)
+  end
+
+  def filter_params
+    params.require(:filters).permit(:type, :query_term)
   end
 
   def units_params
@@ -97,4 +124,5 @@ class PartsController < ApplicationController
       end
     end
   end
+  
 end
