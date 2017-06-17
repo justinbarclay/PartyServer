@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-admin = Admin.new(first_name: 'Justin', last_name: 'Barclay', email: 'justincbarclay@gmail.com', password: 'password', password_confirmation: 'password')
+admin = Admin.new(first_name: 'Justin', last_name: 'Barclay', email: 'jbarclay@ualberta.ca', password: 'password', password_confirmation: 'password')
 
 unit1 = Unit.new(name: 'U32')
 unit2 = Unit.new(name: 'D43')
