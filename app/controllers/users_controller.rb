@@ -107,12 +107,12 @@ class UsersController < ApplicationController
 
     # validate token
     if updated_password[:reset_token].nil?
-      render status: :error, json: { success: false, error: 'Invalid token' }
+      render status: :error, json: { success: false, errors: ['Invalid token'] }
       return
     end
     @user = User.find_by(reset_token: updated_password[:reset_token])
     if @user.nil?
-      render status: 404, json: { success: false, error: 'Unable to find user' }
+      render status: 404, json: { success: false, errors: ['Invalid token'] }
       return
     end
     # Ensure matching passwords
@@ -120,7 +120,7 @@ class UsersController < ApplicationController
       @user.password = updated_password[:password]
       @user.reset_token = nil
     else
-      render status: :error, json: { success: false, error: 'Passwords don\'t match' }
+      render status: :error, json: { success: false, errors: ['Passwords don\'t match'] }
       return
     end
     # Update password and make sure if matches our standards
