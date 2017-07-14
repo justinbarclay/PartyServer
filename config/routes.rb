@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     constraints format: :json do
       post         'parts',                   to: 'parts#create'
       get          'parts/:id',               to: 'parts#show'
-      post          'parts/search',           to: 'parts#search'
+      post         'parts/search',            to: 'parts#search'
       put          'parts/:id',               to: 'parts#update'
       get          'parts',                   to: 'parts#index'
 
@@ -26,5 +26,5 @@ Rails.application.routes.draw do
     end
   end
 
-  get          '/*path',                      to: redirect('/')
+  get              '/*any',                   to: 'static#index'
 end

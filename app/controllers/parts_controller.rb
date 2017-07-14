@@ -12,7 +12,7 @@ class PartsController < ApplicationController
     part = Part.new(parts_params)
 
     units = build_units(units_params)
-
+    puts units
     part.units << units unless units.empty?
 
     if part.save
@@ -64,6 +64,7 @@ class PartsController < ApplicationController
     if Part.exists?(id)
       Part.delete(id)
       render status: 200, json: { success: true }
+      return
     end
     render status: :error, json: { success: false, error: 'What were you trying to delete?', id: id }
   end
@@ -113,7 +114,7 @@ class PartsController < ApplicationController
     old[:count] - new[:count]
   end
 
-  # A functions that give a list of unit names returns an object of new or peviously created units
+  # A functions that give a list of unit names returns an object of new or previously created units
   # If a unit exists, return that unit. If a unit does not exist with that name make a new unit
   def build_units(units)
     units.map do |unit|
