@@ -1,5 +1,3 @@
-
-
 # Controller for interacting with Administrative duties including User creation and Deletion
 # This is a protected class and requires the user to login before it can access any of the functions
 #
