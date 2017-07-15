@@ -30,6 +30,6 @@ module PartyServer
 
     config.action_mailer.delivery_method = :postmark
     config.action_mailer.postmark_settings = { :api_token => Rails.application.secrets.postmark_api_key }
-    config.domain = "http://localhost:3000"
+    config.domain = ENV["PARTY_URL"]
   end
 end
